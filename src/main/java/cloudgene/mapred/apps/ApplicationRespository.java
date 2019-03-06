@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.util.GitHubUtil;
@@ -35,7 +35,7 @@ public class ApplicationRespository {
 
 	private static ApplicationRespository instance;
 
-	private static final Log log = LogFactory.getLog(ApplicationRespository.class);
+	private static final Logger log = LoggerFactory.getLogger(ApplicationRespository.class);
 
 	public static ApplicationRespository getInstance() {
 		if (instance == null) {

@@ -10,8 +10,8 @@ import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.jobs.AbstractJob;
 import cloudgene.mapred.jobs.CloudgeneContext;
@@ -35,7 +35,7 @@ public class GraphNode implements Runnable {
 
 	private CloudgeneStep instance;
 
-	private static final Log log = LogFactory.getLog(CloudgeneJob.class);
+	private static final Logger log = LoggerFactory.getLogger(CloudgeneJob.class);
 
 	private boolean successful = false;
 
@@ -100,9 +100,9 @@ public class GraphNode implements Runnable {
 					instance = (CloudgeneStep) object;
 				} else if (object instanceof WorkflowStep) {
 					instance = new JavaInternalStep((WorkflowStep) object);
-					//old genepi-hadoop support! this is deprecreated!
+					// old genepi-hadoop support! this is deprecreated!
 				} else if (object instanceof genepi.hadoop.common.WorkflowStep) {
-					instance = new JavaInternalStepDeprecrated((genepi.hadoop.common.WorkflowStep) object);					
+					instance = new JavaInternalStepDeprecrated((genepi.hadoop.common.WorkflowStep) object);
 				} else {
 					instance = new ErrorStep("Error during initialization: class " + step.getClassname() + " ( "
 							+ object.getClass().getSuperclass().getCanonicalName() + ") "
@@ -112,7 +112,7 @@ public class GraphNode implements Runnable {
 
 				// check requirements
 				PluginManager pluginManager = PluginManager.getInstance();
-				for (String plugin : instance.getRequirements()) {					
+				for (String plugin : instance.getRequirements()) {
 					if (!pluginManager.isEnabled(plugin)) {
 						instance = new ErrorStep(
 								"Requirements not fullfilled. This steps needs plugin '" + plugin + "'");

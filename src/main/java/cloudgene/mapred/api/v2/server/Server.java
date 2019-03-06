@@ -65,7 +65,7 @@ public class Server extends BaseResource {
 		} else {
 			data.put("maintenace", false);
 		}
-
+		
 		return new StringRepresentation(data.toString());
 
 	}

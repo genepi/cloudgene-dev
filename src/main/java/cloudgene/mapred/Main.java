@@ -14,13 +14,13 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.daemon.Daemon;
 import org.apache.commons.daemon.DaemonContext;
 import org.apache.commons.daemon.DaemonInitException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.PropertyConfigurator;
 import org.restlet.engine.Engine;
 import org.restlet.ext.slf4j.Slf4jLoggerFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.yamlbeans.YamlReader;
+import com.rollbar.notifier.config.ConfigBuilder;
 
 import cloudgene.mapred.database.util.DatabaseConnectorFactory;
 import cloudgene.mapred.database.util.Fixtures;
@@ -43,11 +43,17 @@ public class Main implements Daemon {
 
 	private WebServer server;
 
+	public static Logger log = LoggerFactory.getLogger(Main.class);
+	
 	public void runCloudgene(Settings settings, String[] args) throws Exception {
-
+		
+		log.info("Cloudgene " + VERSION);
+		log.info(BuildUtil.getBuildInfos());
+		
 		// load cloudgene.conf file. contains path to settings, db, apps, ..
 		Config config = new Config();
 		if (new File(Config.CONFIG_FILENAME).exists()) {
+			log.info("Loading config from " + Config.CONFIG_FILENAME + "...");
 			YamlReader reader = new YamlReader(new FileReader(Config.CONFIG_FILENAME));
 			config = reader.read(Config.class);
 		}
@@ -57,7 +63,7 @@ public class Main implements Daemon {
 		// load default settings when not yet loaded
 		if (settings == null) {
 			if (new File(settingsFilename).exists()) {
-				System.out.println("Loading settings from " + settingsFilename + "...");
+				log.info("Loading settings from " + settingsFilename + "...");
 				settings = Settings.load(config);
 			} else {
 				settings = new Settings(config);
@@ -71,30 +77,8 @@ public class Main implements Daemon {
 		PluginManager pluginManager = PluginManager.getInstance();
 		pluginManager.initPlugins(settings);
 
-		// configure logger
-		if (new File("log4j.properties").exists()) {
-
-			PropertyConfigurator.configure("log4j.properties");
-
-			Slf4jLoggerFacade loggerFacade = new Slf4jLoggerFacade();
-			Engine.getInstance().setLoggerFacade(loggerFacade);
-
-		} else {
-
-			if (new File("config/log4j.properties").exists()) {
-				PropertyConfigurator.configure("config/log4j.properties");
-
-				Slf4jLoggerFacade loggerFacade = new Slf4jLoggerFacade();
-				Engine.getInstance().setLoggerFacade(loggerFacade);
-
-			}
-
-		}
-
-		Log log = LogFactory.getLog(Main.class);
-
-		log.info("Cloudgene " + VERSION);
-		log.info(BuildUtil.getBuildInfos());
+		Slf4jLoggerFacade loggerFacade = new Slf4jLoggerFacade();
+		Engine.getInstance().setLoggerFacade(loggerFacade);
 
 		// create the command line parser
 		CommandLineParser parser = new PosixParser();
@@ -192,9 +176,6 @@ public class Main implements Daemon {
 			new Thread(engine).start();
 
 			int port = Integer.parseInt(line.getOptionValue("port", settings.getPort()));
-
-			Slf4jLoggerFacade loggerFacade = new Slf4jLoggerFacade();
-			Engine.getInstance().setLoggerFacade(loggerFacade);
 
 			log.info("Starting web server at port " + port);
 

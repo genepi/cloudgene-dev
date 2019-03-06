@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.Future;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.jobs.AbstractJob;
@@ -29,7 +29,7 @@ public abstract class Queue implements Runnable {
 
 	private boolean priority = false;
 
-	private static final Log log = LogFactory.getLog(Queue.class);
+	private static final Logger log = LoggerFactory.getLogger(Queue.class);
 
 	public Queue(String name, int threads, boolean updatePositions, boolean priority) {
 		this.name = name;
@@ -76,10 +76,10 @@ public abstract class Queue implements Runnable {
 
 			log.info(name + ": Cancel Job " + job.getId() + "...");
 
-			if (job.getSetupStartTime() > 0 && job.getSetupEndTime() == 0){
+			if (job.getSetupStartTime() > 0 && job.getSetupEndTime() == 0) {
 				job.setSetupEndTime(System.currentTimeMillis());
 			}
-			
+
 			job.kill();
 			job.cancel();
 
@@ -98,10 +98,10 @@ public abstract class Queue implements Runnable {
 					if (runnable != null) {
 						scheduler.kill(runnable);
 					}
-					if (job.getSetupStartTime() > 0 && job.getSetupEndTime() == 0){
+					if (job.getSetupStartTime() > 0 && job.getSetupEndTime() == 0) {
 						job.setSetupEndTime(System.currentTimeMillis());
 					}
-					
+
 					job.cancel();
 					queue.remove(job);
 					futures.remove(job);

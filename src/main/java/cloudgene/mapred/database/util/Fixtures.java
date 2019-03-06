@@ -1,7 +1,7 @@
 package cloudgene.mapred.database.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.database.TemplateDao;
@@ -12,7 +12,7 @@ import genepi.db.Database;
 
 public class Fixtures {
 
-	private static final Log log = LogFactory.getLog(Fixtures.class);
+	private static final Logger log = LoggerFactory.getLogger(Fixtures.class);
 
 	public static String USERNAME = "admin";
 
@@ -32,11 +32,11 @@ public class Fixtures {
 
 			dao.insert(user);
 			log.info("User " + USERNAME + " created.");
-		} else {	
-			
+		} else {
+
 			log.info("User " + USERNAME + " already exists.");
-			
-			if (!user.isAdmin()){
+
+			if (!user.isAdmin()) {
 				user.makeAdmin();
 				dao.update(user);
 				log.info("User " + USERNAME + " has admin rights now.");
@@ -48,14 +48,12 @@ public class Fixtures {
 
 		for (Template defaultSnippet : Template.SNIPPETS) {
 
-			Template snippet = htmlSnippetDao
-					.findByKey(defaultSnippet.getKey());
+			Template snippet = htmlSnippetDao.findByKey(defaultSnippet.getKey());
 			if (snippet == null) {
 				htmlSnippetDao.insert(defaultSnippet);
 				log.info("Template " + defaultSnippet.getKey() + " created.");
 			} else {
-				log.info("Template " + defaultSnippet.getKey()
-						+ " already exists.");
+				log.info("Template " + defaultSnippet.getKey() + " already exists.");
 			}
 
 		}

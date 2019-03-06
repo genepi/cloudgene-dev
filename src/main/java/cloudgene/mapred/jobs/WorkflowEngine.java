@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.jobs.queue.PriorityRunnable;
@@ -26,7 +26,7 @@ public class WorkflowEngine implements Runnable {
 
 	private AtomicLong priorityCounter = new AtomicLong();
 
-	private static final Log log = LogFactory.getLog(WorkflowEngine.class);
+	private static final Logger log = LoggerFactory.getLogger(WorkflowEngine.class);
 
 	public WorkflowEngine(int ltqThreads, int stqThreads) {
 

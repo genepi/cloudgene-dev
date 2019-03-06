@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.yamlbeans.YamlConfig;
 import com.esotericsoftware.yamlbeans.YamlException;
@@ -72,7 +72,7 @@ public class Settings {
 
 	private boolean removeHdfsWorkspace = true;
 
-	private static final Log log = LogFactory.getLog(Settings.class);
+	private static final Logger log = LoggerFactory.getLogger(Settings.class);
 
 	private boolean writeStatistics = true;
 
@@ -103,6 +103,8 @@ public class Settings {
 	protected Config config;
 
 	private String port = "8082";
+
+	private Map<String, String> rollbar = null;
 
 	// fake!
 	private List<Application> apps = new Vector<Application>();;
@@ -270,7 +272,7 @@ public class Settings {
 			YamlConfig yamlConfig = new YamlConfig();
 			yamlConfig.setPropertyElementType(Settings.class, "apps", Application.class);
 			yamlConfig.setClassTag("cloudgene.mapred.util.Application", Application.class);
-			
+
 			YamlWriter writer = new YamlWriter(new FileWriter(filename), yamlConfig);
 			writer.write(this);
 			writer.close();
@@ -624,4 +626,11 @@ public class Settings {
 		return port;
 	}
 
+	public void setRollbar(Map<String, String> rollbar) {
+		this.rollbar = rollbar;
+	}
+	
+	public Map<String, String> getRollbar() {
+		return rollbar;
+	}
 }

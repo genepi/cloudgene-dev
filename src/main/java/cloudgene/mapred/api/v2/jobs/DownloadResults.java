@@ -2,13 +2,13 @@ package cloudgene.mapred.api.v2.jobs;
 
 import java.io.File;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.database.DownloadDao;
@@ -22,7 +22,7 @@ import genepi.io.FileUtil;
 
 public class DownloadResults extends BaseResource {
 
-	private static final Log log = LogFactory.getLog(DownloadResults.class);
+	private static final Logger log = LoggerFactory.getLogger(DownloadResults.class);
 
 	@Get
 	public Representation get() {

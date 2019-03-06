@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.apps.Application;
 import cloudgene.mapred.apps.ApplicationInstaller;
@@ -43,7 +43,7 @@ public class CloudgeneJob extends AbstractJob {
 
 	private ApplicationRespository repository = ApplicationRespository.getInstance();
 
-	private static final Log log = LogFactory.getLog(CloudgeneJob.class);
+	private static final Logger log = LoggerFactory.getLogger(CloudgeneJob.class);
 
 	public CloudgeneJob() {
 		super();

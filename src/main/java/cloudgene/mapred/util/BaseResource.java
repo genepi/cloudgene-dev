@@ -48,6 +48,9 @@ public class BaseResource extends ServerResource {
 
 		User user = JWTUtil.getUserByRequest(getDatabase(), getRequest(), getSettings().getSecretKey(), checkCsrf);
 		if (user != null) {
+			
+			getRequest().getClientInfo().setUser(new org.restlet.security.User(user.getUsername()));
+			
 			return user;
 		} else {
 			return null;

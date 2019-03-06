@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.jobs.AbstractJob;
 import genepi.db.Database;
@@ -15,7 +15,7 @@ import genepi.db.JdbcDataAccessObject;
 
 public class CounterDao extends JdbcDataAccessObject {
 
-	private static final Log log = LogFactory.getLog(CounterDao.class);
+	private static final Logger log = LoggerFactory.getLogger(CounterDao.class);
 
 	public CounterDao(Database database) {
 		super(database);

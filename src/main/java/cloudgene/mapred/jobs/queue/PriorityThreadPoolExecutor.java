@@ -6,14 +6,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PriorityThreadPoolExecutor {
 	private PausableThreadPoolExecutor executor;
 	private BlockingQueue<Runnable> queue;
 
-	private static final Log log = LogFactory.getLog(PriorityThreadPoolExecutor.class);
+	private static final Logger log = LoggerFactory.getLogger(PriorityThreadPoolExecutor.class);
 
 	public PriorityThreadPoolExecutor(int threads, boolean priority) {
 		if (priority) {

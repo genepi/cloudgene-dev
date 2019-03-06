@@ -13,7 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.jobs.queue.PriorityRunnable;
@@ -22,7 +23,7 @@ import genepi.io.FileUtil;
 
 abstract public class AbstractJob extends PriorityRunnable {
 
-	private static final org.apache.commons.logging.Log log = LogFactory.getLog(AbstractJob.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractJob.class);
 
 	private DateFormat formatter = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 

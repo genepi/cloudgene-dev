@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.jobs.CloudgeneJob;
 import cloudgene.mapred.jobs.CloudgeneStep;
@@ -18,7 +18,7 @@ import genepi.db.JdbcDataAccessObject;
 
 public class StepDao extends JdbcDataAccessObject {
 
-	private static final Log log = LogFactory.getLog(StepDao.class);
+	private static final Logger log = LoggerFactory.getLogger(StepDao.class);
 
 	public StepDao(Database database) {
 		super(database);

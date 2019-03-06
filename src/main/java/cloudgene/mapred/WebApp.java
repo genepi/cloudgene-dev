@@ -15,6 +15,8 @@ import org.restlet.routing.Template;
 import org.restlet.routing.TemplateRoute;
 import org.restlet.routing.Variable;
 
+import com.rollbar.notifier.Rollbar;
+
 import cloudgene.mapred.api.v2.admin.ArchiveJob;
 import cloudgene.mapred.api.v2.admin.ChangeGroup;
 import cloudgene.mapred.api.v2.admin.ChangePriority;
@@ -69,6 +71,7 @@ import cloudgene.mapred.resources.Admin;
 import cloudgene.mapred.resources.Index;
 import cloudgene.mapred.resources.Start;
 import cloudgene.mapred.util.Settings;
+import cloudgene.mapred.util.logging.RollbarStatusService;
 import genepi.db.Database;
 
 public class WebApp extends Application {
@@ -97,6 +100,10 @@ public class WebApp extends Application {
 	 * Creates a root Restlet that will receive all incoming calls.
 	 */
 
+	public void setRollbar(Rollbar rollbar) {
+		setStatusService(new RollbarStatusService(rollbar));
+	}
+	
 	@Override
 	public synchronized Restlet createInboundRoot() {
 

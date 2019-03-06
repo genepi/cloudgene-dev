@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.core.User;
 import cloudgene.mapred.util.PublicUser;
@@ -16,7 +16,7 @@ import genepi.db.JdbcDataAccessObject;
 
 public class UserDao extends JdbcDataAccessObject {
 
-	private static final Log log = LogFactory.getLog(UserDao.class);
+	private static final Logger log = LoggerFactory.getLogger(UserDao.class);
 
 	public UserDao(Database database) {
 		super(database);

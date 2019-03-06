@@ -3,8 +3,8 @@ package cloudgene.mapred.cron;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.WebApp;
 import cloudgene.mapred.database.JobDao;
@@ -18,7 +18,7 @@ import genepi.io.FileUtil;
 
 public class CleanUpTasks {
 
-	private static final Log log = LogFactory.getLog(CleanUpTasks.class);
+	private static final Logger log = LoggerFactory.getLogger(CleanUpTasks.class);
 
 	public static int executeRetire(Database database, Settings settings) {
 		JobDao dao = new JobDao(database);
@@ -31,19 +31,16 @@ public class CleanUpTasks {
 			if (job.getDeletedOn() < System.currentTimeMillis()) {
 
 				// delete local directory and hdfs directory
-				String localOutput = FileUtil.path(
-						settings.getLocalWorkspace(), job.getId());
+				String localOutput = FileUtil.path(settings.getLocalWorkspace(), job.getId());
 				FileUtil.deleteDirectory(localOutput);
-				
+
 				try {
-				String hdfsOutput = HdfsUtil.makeAbsolute(HdfsUtil.path(
-						settings.getHdfsWorkspace(), job.getId()));				
-				HdfsUtil.delete(hdfsOutput);
-				}catch (NoClassDefFoundError e) {
+					String hdfsOutput = HdfsUtil.makeAbsolute(HdfsUtil.path(settings.getHdfsWorkspace(), job.getId()));
+					HdfsUtil.delete(hdfsOutput);
+				} catch (NoClassDefFoundError e) {
 					// TODO: handle exception
 				}
-				
-				
+
 				job.setState(AbstractJob.STATE_RETIRED);
 				dao.update(job);
 
@@ -56,9 +53,9 @@ public class CleanUpTasks {
 
 		File workspace = new File(settings.getLocalWorkspace());
 
-		int free =  Math.round(workspace.getFreeSpace() / 1024 / 1024 / 1024);		
+		int free = Math.round(workspace.getFreeSpace() / 1024 / 1024 / 1024);
 		MailUtil.notifySlack(settings, "Hi! I retired " + deleted + " jobs. There are now " + free + " GB free :+1:");
-		
+
 		log.info(deleted + " jobs retired.");
 		return deleted;
 	}

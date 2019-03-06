@@ -1,11 +1,11 @@
 package cloudgene.mapred.api.v2.jobs;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.restlet.data.MediaType;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloudgene.mapred.database.DownloadDao;
 import cloudgene.mapred.jobs.Download;
@@ -14,7 +14,7 @@ import genepi.io.FileUtil;
 
 public class ShareResults extends BaseResource {
 
-	private static final Log log = LogFactory.getLog(ShareResults.class);
+	private static final Logger log = LoggerFactory.getLogger(ShareResults.class);
 
 	@Get
 	public Representation get() {
@@ -30,14 +30,14 @@ public class ShareResults extends BaseResource {
 			return error404("download not found.");
 		}
 
-		if (!download.getName().equals(filename)){
+		if (!download.getName().equals(filename)) {
 			return error404("download not found.");
 		}
-		
+
 		if (download.getCount() == 0) {
 			return error400("number of max downloads exceeded.");
 		}
-		
+
 		MediaType mediaType = MediaType.ALL;
 		if (filename.endsWith(".zip")) {
 			mediaType = MediaType.APPLICATION_ZIP;
@@ -49,8 +49,7 @@ public class ShareResults extends BaseResource {
 			mediaType = MediaType.TEXT_HTML;
 		}
 
-		String resultFile = FileUtil.path(getSettings().getLocalWorkspace(),
-				download.getPath());
+		String resultFile = FileUtil.path(getSettings().getLocalWorkspace(), download.getPath());
 
 		log.debug("Downloading file " + resultFile);
 

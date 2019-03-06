@@ -9,7 +9,6 @@ import java.util.Vector;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.restlet.engine.Engine;
-import org.restlet.ext.slf4j.Slf4jLoggerFacade;
 
 import cloudgene.mapred.Main;
 import cloudgene.mapred.WebServer;
@@ -348,8 +347,6 @@ public class TestServer {
 
 				PropertyConfigurator.configure("config/log4j.properties");
 
-				Slf4jLoggerFacade loggerFacade = new Slf4jLoggerFacade();
-				Engine.getInstance().setLoggerFacade(loggerFacade);
 
 				String webAppFolder = "";
 
