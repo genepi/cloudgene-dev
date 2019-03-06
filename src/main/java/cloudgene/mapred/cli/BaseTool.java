@@ -5,10 +5,6 @@ import java.io.FileReader;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import com.esotericsoftware.yamlbeans.YamlReader;
 
 import cloudgene.mapred.apps.ApplicationRespository;
@@ -35,8 +31,6 @@ public abstract class BaseTool extends Tool {
 
 	@Override
 	public void init() {
-
-		turnOffLogging();
 
 		// load cloudgene.conf file. contains path to settings, db, apps, ..
 		config = new Config();
@@ -142,11 +136,4 @@ public abstract class BaseTool extends Tool {
 		System.out.println();
 	}
 
-	public void turnOffLogging() {
-		List<Logger> loggers = Collections.<Logger>list(LogManager.getCurrentLoggers());
-		loggers.add(LogManager.getRootLogger());
-		for (Logger logger : loggers) {
-			logger.setLevel(Level.OFF);
-		}
-	}
 }
