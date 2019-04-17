@@ -20,5 +20,13 @@ CLASS="cloudgene.mapred.CommandLineInterface"
 # change current directory
 cd $FILE_PATH
 
+# This variables can be overridden in config/cloudgene-env.sh
+LOGBACK=config/logback.xml
+JAVA_OPTS="-Xmx512M"
+if [ -f "config/cloudgene-env.sh" ]; then
+. "config/cloudgene-env.sh"
+fi
+
+
 # execute cloudgene
-java -cp $CLASS_PATH $CLASS "$@"
+java $JAVA_OPTS -Dlogback.configurationFile=$LOGBACK -cp $CLASS_PATH $CLASS "$@"
