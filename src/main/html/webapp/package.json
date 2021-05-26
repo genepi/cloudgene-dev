@@ -34,7 +34,7 @@
     "popper.js": "1.14.3",
     "raphael": "2.2.7",
     "steal": "^1.5.13",
-    "ansi_up": "4.0.4"
+    "ansi_up": "5.0.0"
   },
   "scripts": {
     "build": "node build"
